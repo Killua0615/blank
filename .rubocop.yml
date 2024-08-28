@@ -1,8 +1,4 @@
-require:
-  - rubocop-rails
-
 AllCops:
-  SuggestExtensions: false
   NewCops: enable
   Exclude:
     - "vendor/**/*"
@@ -13,6 +9,7 @@ AllCops:
     - "config/environments/*.rb"
     - "Gemfile"
     - "Rakefile"
+  SuggestExtensions: false
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -26,9 +23,3 @@ Style/Documentation:
 Metrics/BlockLength:
   Exclude:
     - "config/routes.rb"
-
-Gemspec/AddRuntimeDependency:
-  Enabled: false
-
-Gemspec/DeprecatedAttributeAssignment:
-  Enabled: false
