@@ -32,3 +32,6 @@ docker-compose.override.yml
 /config/credentials/development.key
 
 config/initializers/stripe.rb
+
+#追加
+db/seeds.rb
