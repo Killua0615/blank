@@ -4,5 +4,12 @@ module.exports = {
     './app/helpers/**/*.rb',
     './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js'
-  ]
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        dogtooth: ['Dogtooth', 'serif'], // ここにカスタムフォントを追加
+      },
+    },
+  },
 }
