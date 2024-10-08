@@ -27,6 +27,8 @@ module Hello
       namespace: 'cache'
     }
 
+    config.assets.initialize_on_precompile = false
+
     # Set Sidekiq as the back-end for Active Job.
     config.active_job.queue_adapter = :sidekiq
 
