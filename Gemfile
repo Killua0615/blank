@@ -33,6 +33,9 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 5.2"
 
+# AWS S3 SDK for Rails Active Storage
+gem "aws-sdk-s3", "~> 1.130"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -53,10 +56,10 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
-
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # dotenv-railsを追加
+  gem "dotenv-rails", groups: [:development, :test]
 end
 
 group :development do
