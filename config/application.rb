@@ -16,7 +16,7 @@ module Hello
     config.autoload_lib(ignore: %w[assets tasks])
 
     # Log to STDOUT because Docker expects all processes to log here. You could
-    # then collect logs using journald, syslog or forward them somewhere else.
+    # then collect logs using journald, syslog or forward them somewhere else.RUN bundle exec rake assets:precompile --trace
     config.logger = ActiveSupport::Logger.new($stdout)
                                          .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
                                          .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
