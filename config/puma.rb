@@ -1,51 +1,46 @@
-# This configuration file will be evaluated by Puma. The top-level methods that
-# are invoked here are part of Puma's configuration DSL. For more information
-# about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
+# config/puma.rb
 
-# Specify the bind host and environment.
-bind "tcp://0.0.0.0:#{ENV.fetch('PORT') { '8000' }}"
-environment ENV.fetch('RAILS_ENV') { 'production' }
+# -----------------------------------------
+# 1. ポート設定（Herokuでは ENV["PORT"] が必須）
+# -----------------------------------------
+port ENV.fetch("PORT") { 3000 }
 
-# Puma starts a configurable number of processes (workers) and each process
-# serves each request in a thread from an internal thread pool.
-#
-# The ideal number of threads per worker depends both on how much time the
-# application spends waiting for IO operations and on how much you wish to
-# to prioritize throughput over latency.
-#
-# As a rule of thumb, increasing the number of threads will increase how much
-# traffic a given process can handle (throughput), but due to CRuby's
-# Global VM Lock (GVL) it has diminishing returns and will degrade the
-# response time (latency) of the application.
-#
-# The default is set to 3 threads as it's deemed a decent compromise between
-# throughput and latency for the average Rails application.
-#
-# Any libraries that use a connection pool or another resource pool should
-# be configured to provide at least as many connections as the number of
-# threads. This includes Active Record's `pool` parameter in `database.yml`.
-threads_count = ENV.fetch('RAILS_MAX_THREADS', 3)
+# -----------------------------------------
+# 2. 環境設定
+# -----------------------------------------
+environment ENV.fetch("RAILS_ENV") { "production" }
+
+# -----------------------------------------
+# 3. スレッド数（デフォルト3スレッド）
+# -----------------------------------------
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 3 }.to_i
 threads threads_count, threads_count
 
-# Specifies the number of `workers` to boot in clustered mode.
-# Workers are forked web server processes. If using threads and workers together
-# the concurrency of the application would be max `threads` * `workers`.
-# Workers do not work on JRuby or Windows (both of which do not support
-# processes). It defaults to the number of (virtual cores * 2).
-ENV.fetch('WEB_CONCURRENCY') { Etc.nprocessors * 2 }
+# -----------------------------------------
+# 4. ワーカー数（0 ならシングルモード）
+#    workers > 0 にするとクラスター・モード
+#    シングルモードでOKなら 0 をデフォルトに
+# -----------------------------------------
+workers_count = ENV.fetch("WEB_CONCURRENCY") { 0 }.to_i
+workers workers_count if workers_count > 0
 
-# Specifies the `worker_timeout` threshold that Puma will use to wait before
-# terminating a worker in development environments.
-worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
+# -----------------------------------------
+# 5. 開発環境なら worker_timeout を延長
+# -----------------------------------------
+worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
+# -----------------------------------------
+# 6. workers > 0 でクラスターにする場合は preload_app!
+#    シングルモードでも設定しておいても構いません
+# -----------------------------------------
 preload_app!
 
-# Allow puma to be restarted by `bin/rails restart` command.
+# -----------------------------------------
+# 7. tmp_restart プラグインで `bin/rails restart` に対応
+# -----------------------------------------
 plugin :tmp_restart
 
-# Only use a pidfile when requested.
-pidfile ENV['PIDFILE'] if ENV['PIDFILE']
+# -----------------------------------------
+# 8. PIDファイル（任意）
+# -----------------------------------------
+pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
