@@ -20,21 +20,21 @@ unless Admin.exists?(email: "admin@gmail.com")
   Admin.create!(email: "admin@gmail.com", password: "1234qwer")
 end
 
-p '==================== product create ===================='
-product1 = Product.new(
-  name: "candle",
-  description: "By using a wooden wick, you can enjoy a sound like a bonfire, a sound that cannot be experienced with ordinary candles.", 
-  price: 3500, 
-  stock: 5
-)
-product1.image.attach(io: File.open(Rails.root.join('app/assets/images/candle00.jpg')), filename: 'hat.jpg')
-product1.save!
+# p '==================== product create ===================='
+# product1 = Product.new(
+#   name: "candle",
+#   description: "By using a wooden wick, you can enjoy a sound like a bonfire, a sound that cannot be experienced with ordinary candles.", 
+#   price: 3500, 
+#   stock: 5
+# )
+# product1.image.attach(io: File.open(Rails.root.join('app/assets/images/candle00.jpg')), filename: 'hat.jpg')
+# product1.save!
 
-product2 = Product.new(
-  name: "Incense",
-  description: "It has a fresh, soapy fragrance.", 
-  price: 2500, 
-  stock: 20
-)
-product2.image.attach(io: File.open(Rails.root.join('app/assets/images/incense.jpg')), filename: 'jacket.jpg')
-product2.save!
+# product2 = Product.new(
+#   name: "Incense",
+#   description: "It has a fresh, soapy fragrance.", 
+#   price: 2500, 
+#   stock: 20
+# )
+# product2.image.attach(io: File.open(Rails.root.join('app/assets/images/incense.jpg')), filename: 'jacket.jpg')
+# product2.save!
