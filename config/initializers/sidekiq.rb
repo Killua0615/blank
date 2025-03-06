@@ -1,10 +1,14 @@
-# 変更前
-sidekiq_config = { url: ENV.fetch('REDIS_URL') { 'redis://redis:6379/1' } }
-
+# config/initializers/sidekiq.rb など
 Sidekiq.configure_server do |config|
-  config.redis = sidekiq_config
+  config.redis = {
+    url: ENV.fetch("REDIS_URL"),
+    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+  }
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = sidekiq_config
+  config.redis = {
+    url: ENV.fetch("REDIS_URL"),
+    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+  }
 end
