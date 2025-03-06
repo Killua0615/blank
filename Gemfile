@@ -76,4 +76,5 @@ end
 #追加
 gem "devise"
 gem "stripe"
+gem 'cloudinary', '~> 1.0'
 gem 'activestorage-cloudinary-service'
