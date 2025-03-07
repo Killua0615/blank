@@ -6,8 +6,8 @@
 
 ## Overview
 
-- **Rails 7.2.0
-- **Ruby 3.3.4
+- Rails 7.2.0
+- Ruby 3.3.4
 - **Docker + Docker Compose**  
 - **Heroku** デプロイ
 - 画像アップロードは **Cloudinary** と **Active Storage** を利用
@@ -18,8 +18,10 @@
   - 管理画面 (/admin/products) で商品一覧・追加・編集・削除が可能  
   - ユーザーの詳細も確認可能
 
-- **ユーザー画面**  
+- **ユーザー画面**
   - ECサイトの様に商品をカートに入れることができる(決済は行われない)
+  - ログイン、ログアウト機能
+  - カート機能
 
 ## Screenshots
 
