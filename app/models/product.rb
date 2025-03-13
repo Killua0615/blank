@@ -13,5 +13,4 @@ class Product < ApplicationRecord
     validates :stock
     validates :image
   end
-  
 end

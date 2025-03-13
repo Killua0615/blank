@@ -3,17 +3,17 @@
 # -----------------------------------------
 # 1. ポート設定（Herokuでは ENV["PORT"] が必須）
 # -----------------------------------------
-port ENV.fetch("PORT") { 3000 }
+port ENV.fetch('PORT', 3000)
 
 # -----------------------------------------
 # 2. 環境設定
 # -----------------------------------------
-environment ENV.fetch("RAILS_ENV") { "production" }
+environment ENV.fetch('RAILS_ENV') { 'production' }
 
 # -----------------------------------------
 # 3. スレッド数（デフォルト3スレッド）
 # -----------------------------------------
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 3 }.to_i
+threads_count = ENV.fetch('RAILS_MAX_THREADS', 3).to_i
 threads threads_count, threads_count
 
 # -----------------------------------------
@@ -21,13 +21,13 @@ threads threads_count, threads_count
 #    workers > 0 にするとクラスター・モード
 #    シングルモードでOKなら 0 をデフォルトに
 # -----------------------------------------
-workers_count = ENV.fetch("WEB_CONCURRENCY") { 0 }.to_i
-workers workers_count if workers_count > 0
+workers_count = ENV.fetch('WEB_CONCURRENCY', 0).to_i
+workers workers_count if workers_count.positive?
 
 # -----------------------------------------
 # 5. 開発環境なら worker_timeout を延長
 # -----------------------------------------
-worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
+worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # -----------------------------------------
 # 6. workers > 0 でクラスターにする場合は preload_app!
@@ -43,4 +43,4 @@ plugin :tmp_restart
 # -----------------------------------------
 # 8. PIDファイル（任意）
 # -----------------------------------------
-pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+pidfile ENV['PIDFILE'] if ENV['PIDFILE']

@@ -13,7 +13,7 @@ Rails.application.config.assets.paths << '/node_modules'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w(
+Rails.application.config.assets.precompile += %w[
   builds/application.css
   builds/application.js.map
   builds/application.js
@@ -21,4 +21,4 @@ Rails.application.config.assets.precompile += %w(
   images/candle00.jpg
   images/incense.jpg
   stylesheets/application.tailwind.css
-)
+]
