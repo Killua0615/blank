@@ -14,10 +14,7 @@
 3. [画面イメージ (Screenshots)](#画面イメージ-screenshots)
 4. [ER図](#er図)
 5. [使用技術 (Tech Stack)](#使用技術-tech-stack)
-6. [セットアップ (Getting Started)](#セットアップ-getting-started)
-7. [デプロイ (Deployment)](#デプロイ-deployment)
-8. [ライセンス (License)](#ライセンス-license)
-9. [その他 (補足情報)](#その他-補足情報)
+6. [ライセンス (License)](#ライセンス-license)
 
 ---
 
@@ -71,17 +68,86 @@
 ---
 
 ## ER図
+<img width="741" alt="Screenshot 2025-03-19 at 11 45 23" src="https://github.com/user-attachments/assets/d5447eba-916f-4f2a-ac26-b29b4e10a79e" />
 
-<img width="600" alt="ER Diagram" src="https://github.com/user-attachments/assets/af08e900-5f9d-421b-8695-169912dbb560" />
+### 1. Admins
+Devise により **管理者ログイン機能** を提供するテーブル
 
-- **Admin** と **Customer**：Deviseでログイン管理
-- **Product**：ECサイトの商品
-- **CartItem**：顧客のカート内アイテム
-- **Order** / **OrderDetail**：注文＆注文明細
+- **主なカラム:**
+  - `email`: 管理者のメールアドレス
+  - `encrypted_password`: パスワード（暗号化済）
+  - `reset_password_token`: パスワードリセット用のトークン
+  - `reset_password_sent_at`: パスワードリセットリクエスト時刻
+  - `remember_created_at`: ログイン状態の記録
+- **リレーション:** 他のテーブルとの FK 関係なし
+
+### 2. Customers
+Devise により **顧客ログイン機能** を提供するテーブル
+
+- **主なカラム:**
+  - `email`: 顧客のメールアドレス
+  - `encrypted_password`: パスワード（暗号化済）
+  - `name`: 顧客の名前
+  - `status`: ステータス管理（有効 / 退会 など）
+- **リレーション:**
+  - `CartItems`（1対多） → **顧客は複数の商品をカートに入れる**
+  - `Orders`（1対多） → **顧客は複数の注文を行う**
+
+### 3. Products
+ECサイトで扱う **商品のマスタ情報** を保持するテーブル
+
+- **主なカラム:**
+  - `name`: 商品名
+  - `description`: 商品説明
+  - `price`: 価格
+  - `stock`: 在庫数
+- **リレーション:**
+  - `CartItems`（1対多） → **商品はカートに追加される**
+  - `OrderDetails`（1対多） → **商品は注文される**
+
+### 4. CartItems
+ユーザー（顧客）がカートに入れた商品を管理する **中間テーブル**
+
+- **主なカラム:**
+  - `quantity`: 商品の個数
+  - `customer_id`: **Customers** との FK
+  - `product_id`: **Products** との FK
+- **リレーション:**
+  - `Customers`（多対1） → **顧客ごとのカート情報**
+  - `Products`（多対1） → **カートに追加された商品情報**
+
+### 5. Orders
+**注文情報** を管理するマスタテーブル
+
+- **主なカラム:**
+  - `name`: 配送先の名前
+  - `postal_code`: 郵便番号
+  - `prefecture`: 都道府県
+  - `address1`: 市区町村
+  - `address2`: 詳細住所
+  - `postage`: 配送料
+  - `billing_amount`: 合計請求額
+  - `status`: 注文のステータス（処理中、発送済み など）
+  - `customer_id`: **Customers** との FK
+- **リレーション:**
+  - `Customers`（多対1） → **注文を行った顧客**
+  - `OrderDetails`（1対多） → **注文の詳細情報**
+
+### 6. OrderDetails
+注文ごとの **明細情報** を管理するテーブル（どの商品を何個、いくらで買ったか）
+
+- **主なカラム:**
+  - `price`: 購入時の価格（注文時の価格を保存）
+  - `quantity`: 購入個数
+  - `order_id`: **Orders** との FK
+  - `product_id`: **Products** との FK
+- **リレーション:**
+  - `Orders`（多対1） → **注文に紐づく詳細情報**
+  - `Products`（多対1） → **購入された商品**
 
 ---
 
-## 使用技術 (Tech Stack)
+### 使用技術 (Tech Stack)
 - **言語・フレームワーク**: Ruby 3.3.4, Rails 7.2.0
 - **認証**: Devise
 - **コンテナ**: Docker, Docker Compose
@@ -93,9 +159,7 @@
 
 ---
 
-## セットアップ (Getting Started)
+## **ライセンス (License)**
+このプロジェクトは **MIT License** のもとで公開されています。  
+詳細は [`LICENSE`](./LICENSE) ファイルを参照してください。
 
-### 1. リポジトリをクローン
-```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
